@@ -2,9 +2,9 @@
 requires = ["setuptools"]
 
 [project]
-name = "timetracker"
+name = "lachesis"
 version = "0.0.0"
-description = "Time Tracking"
+description = "Time Allocation"
 readme = "README.md"
 classifiers = [
     "Programming Language :: Python :: 3",
