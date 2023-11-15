@@ -33,6 +33,6 @@ class Timeslice:
 
     def __str__(self) -> str:
         return self.start_time.strftime('%c')
-    
+
     def __repr__(self) -> str:
         return str(self)

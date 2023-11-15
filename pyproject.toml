@@ -14,4 +14,4 @@ dependencies = [
 ]
 
 [tool.setuptools]
-packages = ["lachesis", "lachesis.tests"]
+packages = ["lachesis", "lachesis.tests", "lachesis.util"]
