@@ -12,3 +12,6 @@ classifiers = [
 dependencies = [
     "setuptools",
 ]
+
+[tool.setuptools]
+packages = ["lachesis", "lachesis.tests"]
