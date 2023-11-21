@@ -3,8 +3,11 @@ Utilities for the lachesis module.
 """
 import pickle
 import logging
+import typing
+import inspect
+from pprint import pformat
 
-DEBUG_LEVEL = logging.DEBUG
+DEBUG_LEVEL = logging.CRITICAL
 DEBUG_FORMAT = '%(asctime)s: (%(levelname)s) %(name)s():\n\t%(message)s'
 logging.basicConfig(format=DEBUG_FORMAT,
                     encoding='utf-8',

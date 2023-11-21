@@ -16,41 +16,200 @@ class TestTimeslices(unittest.TestCase):
         """
         #
         # Initialize some variables.
-        start_time = datetime(year=2023,
+        slice_time = datetime(year=2023,
                               month=11,
                               day=1,
                               hour=0,
                               minute=0,
                               second=0)
-        next_time = datetime(year=2023,
-                             month=11,
-                             day=1,
-                             hour=0,
-                             minute=15,
-                             second=0)
         #
         # Create the Timeslice object we'll test first.
-        starting_slice = Timeslice(start_time=start_time)
+        starting_slice = Timeslice(start_time=slice_time)
         self.assertIsInstance(starting_slice, Timeslice)
-        # pylint: disable=protected-access
-        self.assertIsNone(starting_slice._next)
-        self.assertTrue(starting_slice.is_last)
         self.assertEqual(str(starting_slice),
-                         start_time.strftime('%c'))
+                         slice_time.strftime('%c'))
+
+    def test_equal(self):
+        r"""
+        Test the __eq__() method
+        """
         #
-        # Test that we can now get the next slice, and
-        # that the date/time matches what we expect.
-        self.assertIsInstance(starting_slice.next,
-                              Timeslice)
-        self.assertEqual(starting_slice.next.start_time,
-                         next_time)
-        self.assertEqual(starting_slice,
-                         starting_slice.next.previous)
-        self.assertEqual(str(starting_slice.next),
-                         next_time.strftime('%c'))
+        # Initialize some variables.
+        slice_time1 = datetime(year=2023,
+                               month=11,
+                               day=1,
+                               hour=0,
+                               minute=0,
+                               second=0)
+        slice_time2 = datetime(year=2023,
+                               month=11,
+                               day=1,
+                               hour=0,
+                               minute=0,
+                               second=0)
         #
-        # Now that the first slice isn't first, we'll
-        # verify that we get the right data back and
-        # that the new slice knows that it's last.
-        self.assertFalse(starting_slice.is_last)
-        self.assertTrue(starting_slice.next.is_last)
+        # Create slices.
+        slice1 = Timeslice(start_time=slice_time1)
+        slice2 = Timeslice(start_time=slice_time2)
+        #
+        # Assertions
+        self.assertEqual(slice1, slice2)
+        self.assertTrue(slice1 == slice2)
+        self.assertFalse(slice1 < slice2)
+        self.assertFalse(slice1 != slice2)
+
+    def test_not_equal(self):
+        r"""
+        Test the __neq__() method
+        """
+        #
+        # Initialize some variables.
+        slice_time1 = datetime(year=2023,
+                               month=11,
+                               day=1,
+                               hour=0,
+                               minute=0,
+                               second=0)
+        slice_time2 = datetime(year=2023,
+                               month=11,
+                               day=1,
+                               hour=0,
+                               minute=15,
+                               second=0)
+        #
+        # Create slices.
+        slice1 = Timeslice(start_time=slice_time1)
+        slice2 = Timeslice(start_time=slice_time2)
+        #
+        # Assertions
+        self.assertNotEqual(slice1, slice2)
+        self.assertTrue(slice1 != slice2)
+        self.assertFalse(slice1 == slice2)
+
+    def test_less_than(self):
+        r"""
+        Test the __lt__() method
+        """
+        #
+        # Initialize some variables.
+        slice_time1 = datetime(year=2023,
+                               month=11,
+                               day=1,
+                               hour=0,
+                               minute=0,
+                               second=0)
+        slice_time2 = datetime(year=2023,
+                               month=11,
+                               day=1,
+                               hour=0,
+                               minute=15,
+                               second=0)
+        #
+        # Create slices.
+        slice1 = Timeslice(start_time=slice_time1)
+        slice2 = Timeslice(start_time=slice_time2)
+        #
+        # Assertions
+        self.assertLess(slice1, slice2)
+        self.assertTrue(slice1 < slice2)
+        self.assertFalse(slice1 == slice2)
+
+    def test_less_than_equal(self):
+        r"""
+        Test the __le__() method
+        """
+        #
+        # Initialize some variables.
+        slice_time1 = datetime(year=2023,
+                               month=11,
+                               day=1,
+                               hour=0,
+                               minute=0,
+                               second=0)
+        slice_time2 = datetime(year=2023,
+                               month=11,
+                               day=1,
+                               hour=0,
+                               minute=0,
+                               second=0)
+        slice_time3 = datetime(year=2023,
+                               month=11,
+                               day=1,
+                               hour=0,
+                               minute=15,
+                               second=0)
+        #
+        # Create slices.
+        slice1 = Timeslice(start_time=slice_time1)
+        slice2 = Timeslice(start_time=slice_time2)
+        slice3 = Timeslice(start_time=slice_time3)
+        #
+        # Assertions
+        self.assertLessEqual(slice1, slice2)
+        self.assertLessEqual(slice1, slice3)
+        self.assertTrue(slice1 <= slice2)
+        self.assertTrue(slice1 <= slice3)
+
+    def test_greater_than(self):
+        r"""
+        Test the __gt__() method
+        """
+        #
+        # Initialize some variables.
+        slice_time1 = datetime(year=2023,
+                               month=11,
+                               day=1,
+                               hour=0,
+                               minute=0,
+                               second=0)
+        slice_time2 = datetime(year=2023,
+                               month=11,
+                               day=1,
+                               hour=0,
+                               minute=15,
+                               second=0)
+        #
+        # Create slices.
+        slice1 = Timeslice(start_time=slice_time1)
+        slice2 = Timeslice(start_time=slice_time2)
+        #
+        # Assertions
+        self.assertGreater(slice2, slice1)
+        self.assertTrue(slice2 > slice1)
+        self.assertFalse(slice1 == slice2)
+
+    def test_greater_than_equal(self):
+        r"""
+        Test the __ge__() method
+        """
+        #
+        # Initialize some variables.
+        slice_time1 = datetime(year=2023,
+                               month=11,
+                               day=1,
+                               hour=0,
+                               minute=0,
+                               second=0)
+        slice_time2 = datetime(year=2023,
+                               month=11,
+                               day=1,
+                               hour=0,
+                               minute=0,
+                               second=0)
+        slice_time3 = datetime(year=2023,
+                               month=11,
+                               day=1,
+                               hour=0,
+                               minute=15,
+                               second=0)
+        #
+        # Create slices.
+        slice1 = Timeslice(start_time=slice_time1)
+        slice2 = Timeslice(start_time=slice_time2)
+        slice3 = Timeslice(start_time=slice_time3)
+        #
+        # Assertions
+        self.assertGreaterEqual(slice2, slice1)
+        self.assertGreaterEqual(slice3, slice1)
+        self.assertTrue(slice2 >= slice1)
+        self.assertTrue(slice3 >= slice1)

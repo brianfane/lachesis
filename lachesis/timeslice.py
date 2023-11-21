@@ -1,53 +1,52 @@
 r"""
-Time-slices and functions to support them.
+timeslice.py
 """
 
-from pprint import pformat
-from datetime import datetime, timedelta
+from datetime import datetime
 from lachesis.util import create_logger
 
 class Timeslice:
     r"""
-    A slice of time.
+    A 15-minute slice of time.
     """
-    def __init__(self, start_time: datetime, previous: 'Timeslice'=None):
+    def __init__(self, start_time: datetime):
         logger = create_logger('Timeslice.__init__')
         logger.debug('starting')
         self.start_time = start_time
-        self.previous = previous
-        self._next = None
+        self.events = None
         logger.debug('ending')
 
-    @property
-    def next(self) -> 'Timeslice':
-        r"""
-        The next timeslice.
-        """
-        logger = create_logger('Timeslice.next')
-        logger.debug('starting')
-        if not self._next:
-            logger.debug('self._next not set; creating new Timeslice')
-            next_time = self.start_time + timedelta(minutes=15)
-            self._next = Timeslice(start_time=next_time,
-                                   previous=self)
-        logger.debug('ending')
-        return self._next
-
-    @property
-    def is_last(self) -> bool:
-        r"""
-        Is this the last timeslice in our list?
-        """
-        logger = create_logger('Timeslice.is_last')
-        logger.debug('starting; returning whether self._next is None')
-        return self._next is None
-
-    def __str__(self) -> str:
+    def __str__(self):
         logger = create_logger('Timeslice.__str__')
-        logger.debug('starting; returning string of timeslice start')
+        logger.debug('starting')
         return self.start_time.strftime('%c')
 
-    def __repr__(self) -> str:
-        logger = create_logger('Timeslice.__repr__')
-        logger.debug('starting; returning str(self)')
-        return str(self)
+    def __eq__(self, other: "Timeslice") -> bool:
+        logger = create_logger('Timeslice.__eq__')
+        logger.debug('starting')
+        return self.start_time == other.start_time
+
+    def __neq__(self, other: "Timeslice") -> bool:
+        logger = create_logger('Timeslice.__neq__')
+        logger.debug('starting')
+        return self.start_time != other.start_time
+
+    def __lt__(self, other: "Timeslice") -> bool:
+        logger = create_logger('Timeslice.__lt__')
+        logger.debug('starting')
+        return self.start_time < other.start_time
+
+    def __le__(self, other: "Timeslice") -> bool:
+        logger = create_logger('Timeslice.__le__')
+        logger.debug('starting')
+        return self.start_time <= other.start_time
+
+    def __gt__(self, other: "Timeslice") -> bool:
+        logger = create_logger('Timeslice.__gt__')
+        logger.debug('starting')
+        return self.start_time > other.start_time
+
+    def __ge__(self, other: "Timeslice") -> bool:
+        logger = create_logger('Timeslice.__ge__')
+        logger.debug('starting')
+        return self.start_time >= other.start_time
