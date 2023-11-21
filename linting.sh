@@ -1,1 +1,1 @@
-pylint --rcfile /workspaces/lachesis/.pylintrc lachesis
+pylint --rcfile .pylintrc lachesis

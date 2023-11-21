@@ -1,6 +1,6 @@
 #!/bin/bash
 
 pip install --upgrade .
-cd /workspaces
+cd ..
 
 python -m unittest discover lachesis
