@@ -1,1 +1,1 @@
-pylint --rcfile .pylintrc lachesis
+pylint --rcfile .pylintrc lachesis lachesis.util lachesis.tests

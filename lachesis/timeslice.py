@@ -13,7 +13,7 @@ class Timeslice:
         logger = create_logger('Timeslice.__init__')
         logger.debug('starting')
         self.start_time = start_time
-        self.events = None
+        self.time_category = None
         logger.debug('ending')
 
     def __str__(self):
