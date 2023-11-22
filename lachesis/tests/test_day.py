@@ -3,7 +3,7 @@ Tests for the Day objects.
 """
 
 import unittest
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from lachesis.day import Day
 from lachesis.timeslice import Timeslice
 
@@ -22,7 +22,7 @@ class TestDays(unittest.TestCase):
                           day=1)
         #
         # Create the Day object we'll test first.
-        test_day = Day(day=start_date)
+        test_day = Day(start_date=start_date)
         self.assertIsInstance(test_day, Day)
         self.assertEqual(str(test_day),
                          start_date.strftime('%c'))
@@ -41,8 +41,8 @@ class TestDays(unittest.TestCase):
                      day=1)
         #
         # Create slices.
-        day1 = Day(day=date1)
-        day2 = Day(day=date2)
+        day1 = Day(start_date=date1)
+        day2 = Day(start_date=date2)
         #
         # Assertions
         self.assertEqual(day1, day2)
@@ -64,8 +64,8 @@ class TestDays(unittest.TestCase):
                      day=2)
         #
         # Create slices.
-        day1 = Day(day=date1)
-        day2 = Day(day=date2)
+        day1 = Day(start_date=date1)
+        day2 = Day(start_date=date2)
         #
         # Assertions
         self.assertNotEqual(day1, day2)
@@ -86,8 +86,8 @@ class TestDays(unittest.TestCase):
                      day=2)
         #
         # Create slices.
-        day1 = Day(day=date1)
-        day2 = Day(day=date2)
+        day1 = Day(start_date=date1)
+        day2 = Day(start_date=date2)
         #
         # Assertions
         self.assertLess(day1, day2)
@@ -111,9 +111,9 @@ class TestDays(unittest.TestCase):
                      day=2)
         #
         # Create slices.
-        day1 = Day(day=date1)
-        day2 = Day(day=date2)
-        day3 = Day(day=date3)
+        day1 = Day(start_date=date1)
+        day2 = Day(start_date=date2)
+        day3 = Day(start_date=date3)
         #
         # Assertions
         self.assertLessEqual(day1, day2)
@@ -135,8 +135,8 @@ class TestDays(unittest.TestCase):
                      day=2)
         #
         # Create slices.
-        day1 = Day(day=date1)
-        day2 = Day(day=date2)
+        day1 = Day(start_date=date1)
+        day2 = Day(start_date=date2)
         #
         # Assertions
         self.assertGreater(day2, day1)
@@ -160,9 +160,9 @@ class TestDays(unittest.TestCase):
                      day=2)
         #
         # Create slices.
-        day1 = Day(day=date1)
-        day2 = Day(day=date2)
-        day3 = Day(day=date3)
+        day1 = Day(start_date=date1)
+        day2 = Day(start_date=date2)
+        day3 = Day(start_date=date3)
         #
         # Assertions
         self.assertGreaterEqual(day2, day1)
@@ -203,7 +203,7 @@ class TestDays(unittest.TestCase):
                              minute=7,
                              second=0)
         #
-        day1 = Day(day=date1)
+        day1 = Day(start_date=date1)
         slice1 = Timeslice(start_time=datetime1)
         slice2 = Timeslice(start_time=datetime2)
         #
@@ -259,7 +259,7 @@ class TestDays(unittest.TestCase):
                              minute=7,
                              second=0)
         #
-        day1 = Day(day=date1)
+        day1 = Day(start_date=date1)
         #
         self.assertEqual(len(day1), 0)
         #
@@ -276,3 +276,28 @@ class TestDays(unittest.TestCase):
         with self.assertRaises(KeyError):
             _ = day1[datetime4]
         self.assertEqual(len(day1), 2)
+
+    def test_iter(self):
+        r"""
+        Test the __iter__() method
+        """
+        date1 = date(year=2023,
+                     month=11,
+                     day=1)
+        end_datetime = datetime(year=date1.year,
+                                month=date1.month,
+                                day=date1.day,
+                                hour=23,
+                                minute=45,
+                                second=0)
+        #
+        day1 = Day(start_date=date1)
+        time_delta = timedelta(minutes=15)
+        prev_slice = None
+        #
+        for curr_slice in day1:
+            self.assertIsInstance(curr_slice, Timeslice)
+            if prev_slice:
+                self.assertEqual(curr_slice.start_time - prev_slice.start_time, time_delta)
+            prev_slice = curr_slice
+        self.assertEqual(prev_slice.start_time, end_datetime)
