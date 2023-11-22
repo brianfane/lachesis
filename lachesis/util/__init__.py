@@ -20,7 +20,7 @@ def create_logger(logger_name: str) -> logging.Logger:
     logger = logging.getLogger(logger_name)
     return logger
 
-def intiialize_data() -> dict:
+def initialize_data() -> dict:
     r"""
     Initialize our data because we didn't find anything.
     """
@@ -46,4 +46,4 @@ def load_data():
         return data
     except FileNotFoundError:
         logger.debug('no data found; initializing data')
-        return intiialize_data()
+        return initialize_data()

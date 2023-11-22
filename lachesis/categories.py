@@ -27,8 +27,17 @@ class Categories(Mapping):
     def items(self):
         logger = create_logger('Categories.items()')
         logger.debug('starting')
-        for cat_tuple in self.__categories:
-            yield cat_tuple
+        return self.__categories.items()
+
+    def keys(self):
+        logger = create_logger('Categories.keys()')
+        logger.debug('starting')
+        return self.__categories.keys()
+
+    def values(self):
+        logger = create_logger('Categories.values()')
+        logger.debug('starting')
+        return self.__categories.values()
 
     def __getitem__(self, item_key):
         logger = create_logger('Categories.__getitem__')
@@ -39,13 +48,15 @@ class Categories(Mapping):
         if isinstance(item_key, str):
             logger.debug('item_key is a string; finding the category')
             for cat_id, cat_name in self.__categories.items():
-                logger.debug(f'cat_id = {cat_id}; cat_name = "{cat_name}"')
+                logger.debug('cat_id = %d; cat_name = "%s"',
+                             cat_id,
+                             cat_name)
                 if cat_name == item_key:
-                    logger.debug(f'category found; {cat_id}')
+                    logger.debug('category found; %d',
+                                 cat_id)
                     return cat_id
-            else:
-                logger.debug('category not found; throwing an exception')
-                raise KeyError
+            logger.debug('category not found; throwing an exception')
+            raise KeyError
         logger.debug('the wrong data type used for a key; throwing exception')
         raise ValueError
 
